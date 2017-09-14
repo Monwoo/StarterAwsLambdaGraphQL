@@ -1,0 +1,32 @@
+{
+    "name": "DataServer",
+    "version": "1.0.0",
+    "description": "Standalone data server for browsers with local storage synchronisable with other Databases like MySql",
+    "main": "serveur.js",
+    "repository": "https://github.com/Monwoo/StarterAwsLambdaGraphQL/tree/master/DataServer",
+    "author": "Miguel Monwoo",
+    "license": "MIT",
+    "dependencies": {
+        "couchdb-to-mysql": "^0.0.2",
+        "pouchdb": "^6.3.4"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-react": "^6.24.1",
+        "babelify": "^7.3.0",
+        "browserify": "^14.4.0",
+        "envify": "^4.1.0",
+        "uglify-js": "^3.1.0",
+        "webpack-dev-server": "^2.8.2"
+    },
+    "scripts": {
+        "debugSrc": "rm -rf build && mkdir build && browserify -d -t [ babelify --presets es2015 ] serveur.js -o build/serveur.js",
+        "buildSrc": "rm -rf build && mkdir build && browserify -t envify  -t [ babelify --presets es2015 ] serveur.js | uglifyjs -m -c > build/serveur.min.js",
+        "copyAssets": "cp serveur.html build/",
+        "debug": "yarn debugSrc && yarn copyAssets",
+        "build": "yarn buildSrc && yarn copyAssets",
+        "launch": "php -S localhost:8000 -t build dev-routings.php",
+        "start": "yarn debug && yarn launch"
+    }
+}

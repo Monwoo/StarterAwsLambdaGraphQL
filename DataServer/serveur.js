@@ -1,3 +1,5 @@
+// Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
+
 // using :
 // https://pouchdb.com/
 // https://www.npmjs.com/package/couchdb-to-mysql

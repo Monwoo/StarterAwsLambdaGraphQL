@@ -1,4 +1,5 @@
 #! /bin/sh
+# Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
 
 # Read and transform the template, created in previous step. Package and upload the artifact to the S3 bucket and generate another template for the deployment.
 aws cloudformation package \

@@ -1,3 +1,5 @@
+// Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
+
 var server = require("apollo-server-lambda"),
     myGraphQLSchema = require("./schema");
 

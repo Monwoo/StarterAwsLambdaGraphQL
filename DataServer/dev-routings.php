@@ -1,5 +1,7 @@
 <?php
 
+// Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
+
 function consoleLog($level, $msg) {
     file_put_contents("php://stdout", "[" . $level . "] " . $msg . "\n");
 }

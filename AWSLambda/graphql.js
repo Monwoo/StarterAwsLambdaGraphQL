@@ -24,12 +24,13 @@ exports.graphqlHandler = function(event, context, callback)  {
             functionName,
             event,
             context
-        }
+        },
+        endpointURL: '/demoBeta/graphql'
     });
 
     return handler(event, context, callbackFilter);
 };
 
 exports.graphiqlHandler = server.graphiqlLambda({
-    endpointURL: '/Prod/graphql'
+    endpointURL: '/demoBeta/graphiql'
 });

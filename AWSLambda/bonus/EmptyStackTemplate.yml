@@ -1,0 +1,17 @@
+Parameters:
+    BucketName:
+        Description: "The S3 bucket where you want to store GraphQL server."
+        Type: "String"
+    FunctionName:
+        Description: "The Lambda function name."
+        Type: "String"
+Resources:
+    LogGroup:
+        Type: "AWS::Logs::LogGroup"
+        Properties:
+            LogGroupName: !Join ["", ["/aws/lambda/", !Ref FunctionName]]
+
+Outputs:
+    Nothing:
+        Description: "Empty stack template"
+        Value: ""

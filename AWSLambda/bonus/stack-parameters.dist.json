@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "BucketName",
+    "ParameterValue": "demo.awslambda.monwoo.com"
+  },
+  {
+    "ParameterKey": "FunctionName",
+    "ParameterValue": "author"
+  }
+]

@@ -3,8 +3,6 @@
 
 # We use the stack-name prod to mean production but any stack name can be used.
 STACK_NAME=prod
-LAMBDA_TEST_FUNCTION_NAME=prod2-GraphQL-4F0BWEF1N03
-LAMBDA_TEST_PAYLOAD='{"key1":"value1", "key2":"value2", "key3":"value3"}'
 
 # Bonus config, not working yet :
 STACK_POLICY_FILE="file://$PWD/bonus/MiguelStackPolicy.json"
@@ -71,13 +69,17 @@ aws cloudformation deploy \
 # list all available lambda function
 aws lambda list-functions
 
+# configure the test acordingly to generated function name
+LAMBDA_TEST_FUNCTION_NAME=prod-GraphQL-96TD40MRFT5Z
+LAMBDA_TEST_PAYLOAD='{"key1":"value1", "key2":"value2", "key3":"value3"}'
+
 # test the lambda function :
 aws lambda invoke \
 --invocation-type RequestResponse \
---function-name $LAMBDA_TEST_FUNCTION_NAME \
+--function-name "$LAMBDA_TEST_FUNCTION_NAME" \
 --region us-east-1 \
 --log-type Tail \
---payload $LAMBDA_TEST_PAYLOAD \
+--payload "$LAMBDA_TEST_PAYLOAD" \
 outputfile.txt && cat outputfile.txt
 
 # access the lambda function via get :
@@ -91,5 +93,14 @@ outputfile.txt && cat outputfile.txt
 # liste errors : CloudWatch
 # https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logs:
 
+# Checking for uploaded packages :
+# https://console.aws.amazon.com/s3/buckets/demo.awslambda.monwoo.com/?region=us-east-1&tab=overview#
+
 # Checking for get acces in API builder => direclty launch test from Ressource
 # https://console.aws.amazon.com/apigateway/home?region=us-east-1#/apis/ghcekje7sa/resources/gnu4zv/methods/GET
+
+# Checking for available lambda :
+# https://console.aws.amazon.com/lambda/home?region=us-east-1#/functions
+
+# Checking for available stacks :
+# https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active

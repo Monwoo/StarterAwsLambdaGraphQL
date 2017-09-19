@@ -1,6 +1,8 @@
 #! /bin/sh
 # Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
 
+# starter inspired from : https://www.npmjs.com/package/graphql-server-lambda
+
 # We use the stack-name prod to mean production but any stack name can be used.
 STACK_NAME=prod
 
@@ -81,6 +83,11 @@ aws lambda invoke \
 --log-type Tail \
 --payload "$LAMBDA_TEST_PAYLOAD" \
 outputfile.txt && cat outputfile.txt
+
+# it may output some json object with LogResult as base64 content.
+# Can be decoded online or with commande line :
+# B64CONTENT=<your b64 content>
+# echo "$B64CONTENT" | base64 --decode
 
 # access the lambda function via get :
 # => go in Amazon console => API Gateway service

@@ -7,24 +7,37 @@ const { find, filter } = require("lodash"),
 
 // Go deeper with : http://dev.apollodata.com/tools/graphql-tools/generate-schema.html
 const typeDefs = `
-type Author {
-    id: Int!
-    firstName: String
-    lastName: String
+########### DATE ##
+scalar Date
+
+########### USER ##
+type User {
+  _id: String
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  roles: [ Role ]
 }
+
+type Role {
+  value: String
+}
+
 # the schema allows the following query:
 type Query {
-    author(id: Int!): Author
+    userByEmail(email: String!): User
 }
 `;
 
 // example data
-const authors = [
-  { id: 1, firstName: 'Tom', lastName: 'Coleman' },
+const users = [
+    { _id: "UAX", firstname: 'Tom', lastname: 'Coleman', email: 'Tom@Coleman.com',
+    password: "not set", roles:['master']},
 ];
 const resolvers = {
   Query: {
-    author: (_, { id }) => find(authors, { id: id }),
+    userByEmail: (_, { email }) => find(users, { email: email }),
   },
 };
 

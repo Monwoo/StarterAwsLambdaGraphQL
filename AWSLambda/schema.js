@@ -27,6 +27,7 @@ type Role {
 # the schema allows the following query:
 type Query {
     userByEmail(email: String!): User
+    users: [User]
 }
 `;
 
@@ -37,12 +38,17 @@ const users = [
 ];
 const resolvers = {
   Query: {
-    userByEmail: (_, { email }) => find(users, { email: email }),
+      userByEmail: (_, { email }) => find(users, { email: email }),
+      users: (_, { }) => users,
   },
 };
 
-// TODO : export
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
+
+// If Es6 or babel enabled, use :
+// export default schema;
+exports["default"] = schema;
+module.exports = exports["default"];

@@ -7,14 +7,14 @@ var server = require("apollo-server-lambda"),
 exports.graphqlHandler = function(event, context, callback)  {
 
     // http://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-logging.html
-    console.log(event);
-    console.log(context);
+    console.log('[graphqlHandler] event received : ', event);
+    console.log('[graphqlHandler] context received : ', context);
 
     const headers = event.headers,
-        functionName = context.functionName,
-        requestOrigin = event.headers ? event.headers.origin || "*" : "*";
+    functionName = context.functionName,
+    requestOrigin = event.headers ? event.headers.origin || "*" : "*";
 
-    console.log(requestOrigin);
+    console.log('[graphqlHandler] from requestOrigin : ', requestOrigin);
 
     const callbackFilter = function(error, output) {
         // output = {
@@ -22,7 +22,7 @@ exports.graphqlHandler = function(event, context, callback)  {
         //     'headers': headers,
         //     'body': gqlResponse,
         // },
-        console.log(output);
+        console.log('[graphqlHandler] callbackFilter output :', output);
 
         // For production with credentials checkings :
         // if (requestOrigin === CORS_ORIGIN) {
@@ -52,7 +52,6 @@ exports.graphqlHandler = function(event, context, callback)  {
             event,
             context
         },
-        endpointURL: '/demoBeta/graphql',
         debug: true, // enable debug infos
     });
 
@@ -60,5 +59,7 @@ exports.graphqlHandler = function(event, context, callback)  {
 };
 
 exports.graphiqlHandler = server.graphiqlLambda({
-    endpointURL: '/demoBeta/graphiql'
+    // provide path to graphql, in aws :
+    // /<aws:stage>/<template.yaml:graphqlPath>
+    endpointURL: '/prod/graphql'
 });

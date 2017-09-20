@@ -1,7 +1,36 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
 
+GREEN='\033[32m'
+RED='\033[41m'
+COLOR_RESET='\033[0m'
+
+# set -x # echo commandes
+# echo commandes in green colors
+trap 'echo -e "${GREEN}# $BASH_COMMAND$COLOR_RESET";export DEBUGTRAP=$BASH_COMMAND' DEBUG
+function err_handler ()
+{
+    local error_code=${1:-$?}
+    echo -e "${RED}# [ERR: $error_code] $DEBUGTRAP$COLOR_RESET"
+    exit "${error_code}"
+}
+trap err_handler ERR INT TERM
+
+set -e # exit on errors
+# $(exit 42) # => throw error code 42 if you use this commande
 # starter inspired from : https://www.npmjs.com/package/graphql-server-lambda
+
+if [ "$1" = "install" ]; then
+    # bootstrap package :
+    yarn install
+
+    aws configure
+    # TODO : try with miguel2, to fine tune only needable access
+    # AWS Access Key ID [None]: your key ID
+    # AWS Secret Access Key [None]: your key access
+    # Default region name [None]: us-east-1
+    # Default output format [None]: json
+fi
 
 # We use the stack-name prod to mean production but any stack name can be used.
 STACK_NAME=prod
@@ -12,16 +41,8 @@ EMPTY_STACK_TEMPLATE="file://$PWD/bonus/EmptyStackTemplate.yml"
 STACK_PARAMETERS="file://$PWD/bonus/stack-parameters.dist.json"
 
 # http://docs.aws.amazon.com/fr_fr/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro
-# http://demo.awslambda.monwoo.com.s3-us-east-1.amazonaws.com/prod2-GraphQL-4F0BWEF1N03
-# http://demo.awslambda.monwoo.com.s3-us-east-1.amazonaws.com/demoBeta/
-
-aws configure
-# TODO : try with miguel2, to fine tune only needable access
-# AWS Access Key ID [None]: your key ID
-# AWS Secret Access Key [None]: your key access
-# Default region name [None]: us-east-1
-# Default output format [None]: json
-
+# https://t4n3k2xzbe.execute-api.us-east-1.amazonaws.com/prod/graphiql
+# https://t4n3k2xzbe.execute-api.us-east-1.amazonaws.com/prod/graphql
 
 # Read and transform the template, created in previous step.
 # Package and upload the artifact to the S3 bucket
@@ -73,7 +94,9 @@ aws lambda list-functions
 
 # configure the test acordingly to generated function name
 LAMBDA_TEST_FUNCTION_NAME=prod-GraphQL-96TD40MRFT5Z
-LAMBDA_TEST_PAYLOAD='{"key1":"value1", "key2":"value2", "key3":"value3"}'
+# LAMBDA_TEST_PAYLOAD='{"key1":"value1", "key2":"value2", "key3":"value3"}'
+# LAMBDA_TEST_PAYLOAD=$(cat bonus/event-fetch-users.js | tr '\n' ' ' | sed -E 's, +, ,g')
+LAMBDA_TEST_PAYLOAD='{"queryStringParameters":{"query":"{ users { firstname } }"},"httpMethod":"GET","method":"GET"}'
 
 # test the lambda function :
 aws lambda invoke \
@@ -93,7 +116,7 @@ outputfile.txt && cat outputfile.txt
 # => go in Amazon console => API Gateway service
 # => you should see lambda api ready to deploy on the uploaded package
 # checking in get :
-# https://ghcekje7sa.execute-api.us-east-1.amazonaws.com/demoBeta/graphql
+# https://t4n3k2xzbe.execute-api.us-east-1.amazonaws.com/prod/graphql
 # transform the stack in api ready for frontend :
 # https://console.aws.amazon.com/apigateway/home?region=us-east-1#/apis
 
@@ -111,3 +134,7 @@ outputfile.txt && cat outputfile.txt
 
 # Checking for available stacks :
 # https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active
+
+# test lambda locally :
+alias lambda-local="$PWD/node_modules/.bin/lambda-local"
+lambda-local -l graphql.js -h graphqlHandler -e bonus/event-fetch-users.js

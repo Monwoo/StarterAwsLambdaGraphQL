@@ -136,5 +136,6 @@ outputfile.txt && cat outputfile.txt
 # https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks?filter=active
 
 # test lambda locally :
-alias lambda-local="$PWD/node_modules/.bin/lambda-local"
-lambda-local -l graphql.js -h graphqlHandler -e bonus/event-fetch-users.js
+# alias lambda-local="$PWD/node_modules/.bin/lambda-local"
+lambdaLocal="$PWD/node_modules/.bin/lambda-local"
+$lambdaLocal -l graphql.js -h graphqlHandler -e bonus/event-fetch-users.js

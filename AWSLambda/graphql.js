@@ -32,11 +32,15 @@ exports.graphqlHandler = function(event, context, callback)  {
 
         // For Dev without credentials checkings
         // output.headers['Access-Control-Allow-Origin'] = '*';
-        output.headers['Access-Control-Allow-Origin'] = requestOrigin;
-        output.headers['Access-Control-Allow-Credentials'] = 'true';
-        output.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS';
-        output.headers['Access-Control-Allow-Headers'] = 'Content-Type, Accept';
-        output.statusCode = 200;
+        if (output.headers) {
+            // TODO : tested from get directly, no headers is available, normal ?
+            // trying https://t4n3k2xzbe.execute-api.us-east-1.amazonaws.com/prod/graphql => no headers set ?
+            output.headers['Access-Control-Allow-Origin'] = requestOrigin;
+            output.headers['Access-Control-Allow-Credentials'] = 'true';
+            output.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS';
+            output.headers['Access-Control-Allow-Headers'] = 'Content-Type, Accept';
+            output.statusCode = 200;
+        }
 
         callback(error, output);
     };

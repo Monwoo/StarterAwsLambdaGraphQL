@@ -12,7 +12,7 @@ apollo-server-core@^1.1.0:
   dependencies:
     apollo-tracing "^0.0.7"
 
-apollo-server-lambda@^1.1.2:
+apollo-server-lambda@*:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/apollo-server-lambda/-/apollo-server-lambda-1.1.2.tgz#6f0be125a777dd1f94ffc236e183fc8ad06333d8"
   dependencies:
@@ -110,7 +110,7 @@ fs@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.2.tgz#e1f244ef3933c1b2a64bd4799136060d0f5914f8"
 
-graphql-tools@^1.1.0, graphql-tools@^1.2.2:
+graphql-tools@*, graphql-tools@^1.1.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-1.2.2.tgz#ff791e91b78e05eec18a32716a7732bc7bf5cb4d"
   dependencies:
@@ -119,7 +119,7 @@ graphql-tools@^1.1.0, graphql-tools@^1.2.2:
   optionalDependencies:
     "@types/graphql" "^0.9.0"
 
-graphql@^0.11.3:
+graphql@*:
   version "0.11.3"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.11.3.tgz#9934e2df28f17d397a85f83cb39d1d179bffef47"
   dependencies:

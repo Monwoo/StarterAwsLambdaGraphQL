@@ -48,10 +48,14 @@ userSchema.methods.speak = function () {
 
 var userModel = mongoose.model('User', userSchema);
 
+// Async not well enabled under lambda :
+// Syntax error in module 'graphql': SyntaxError
+//       userByEmail: async (_, { email }) => await userModel.find({ email: email }),
+
 const resolvers = {
   Query: {
-      userByEmail: async (_, { email }) => await userModel.find({ email: email }),
-      users: async (_, { }) => await userModel.find(),
+      userByEmail: (_, { email }) => userModel.find({ email: email }),
+      users: (_, { }) => userModel.find(),
   },
 };
 

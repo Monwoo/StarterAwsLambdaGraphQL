@@ -2,7 +2,7 @@
 const CORS_ORIGIN = "https://example.com";
 
 var server = require("apollo-server-lambda"),
-    myGraphQLSchema = require("./schema");
+    myGraphQLSchema = require("./schema.js");
 
 exports.graphqlHandler = function(event, context, callback)  {
 

@@ -1,5 +1,5 @@
 const config = {
-    mongo_url : 'mongodb://localhost:27017/demoTest'
+    mongo_url : 'mongodb://localhost:27017/demoTest' 
 }
 
 // If Es6 or babel enabled, use :

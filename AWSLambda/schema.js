@@ -6,36 +6,14 @@ const { find, filter } = require("lodash"),
     { makeExecutableSchema } = require("graphql-tools");
 
 // Go deeper with : http://dev.apollodata.com/tools/graphql-tools/generate-schema.html
-const typeDefs = `
-########### DATE ##
-scalar Date
+// import Schema from './schema.graphql'; // FOR ES6 compiled code, cf below for require methode
 
-########### USER ##
-type User {
-  _id: String
-  firstname: String
-  lastname: String
-  email: String
-  password: String
-  roles: [ Role ]
-}
-
-type Role {
-  value: String
-}
-
-# the schema allows the following query:
-type Query {
-    userByEmail(email: String!): User
-    users: [User]
-}
-`;
-
-// example data
+// example data : TODO : connect to MongoDB with mongose
 const users = [
     { _id: "UAX", firstname: 'Tom', lastname: 'Coleman', email: 'Tom@Coleman.com',
     password: "not set", roles:['master']},
 ];
+
 const resolvers = {
   Query: {
       userByEmail: (_, { email }) => find(users, { email: email }),
@@ -43,10 +21,32 @@ const resolvers = {
   },
 };
 
+// ES6 way
+// const schema = ;
+
+// Regular JS with require and Promise way
+// const schemaLoader = require('@creditkarma/graphql-loader')
+// schemaLoader.loadDocument('./schema.graphql').then((Schema) => {
+//   return makeExecutableSchema({
+//       typeDefs: [Schema, ],
+//       resolvers: resolvers,
+//       // connectors: Connectors,
+//   })
+// })
+
+// Export sync with require way :
+var fs = require('fs');
+require.extensions['.graphql'] = function (module, filename) {
+    module.exports = fs.readFileSync(filename, 'utf8');
+};
+var typeDefs = require("./schema.graphql");
+
 const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
+    typeDefs: [typeDefs, ],
+    resolvers: resolvers,
+    // connectors: Connectors,
 });
+
 
 // If Es6 or babel enabled, use :
 // export default schema;

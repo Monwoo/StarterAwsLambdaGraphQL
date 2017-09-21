@@ -1,0 +1,22 @@
+########### DATE ##
+scalar Date
+
+########### USER ##
+type User {
+  _id: String
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  roles: [ Role ]
+}
+
+type Role {
+  value: String
+}
+
+# the schema allows the following query:
+type Query {
+    userByEmail(email: String!): User
+    users: [User]
+}

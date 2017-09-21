@@ -74,9 +74,8 @@ if [ "$SCRIPT_ACTION" = "load-fixtures" ]; then
 fi
 
 if [ "$SCRIPT_ACTION" = "show-loaded-fixtures" ]; then
-    mongo $TEST_DB_NAME --eval " printjson(db.users.find().toArray())"
-
-    # mongo scripts/query-users.js
+    # mongo $TEST_DB_NAME --eval " printjson(db.users.find().toArray())"
+    mongo $TEST_DB_NAME scripts/query-users.js
 
     info 'Fixtures display OK'
 fi

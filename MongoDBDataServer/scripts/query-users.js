@@ -1,1 +1,1 @@
-db.users.all()
+printjson(db.users.find().toArray())

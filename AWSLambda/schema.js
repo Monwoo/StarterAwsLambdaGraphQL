@@ -1,4 +1,5 @@
 // Copyright Monwoo 2017, service@monwoo.com, code by Miguel Monwoo
+var config = require('./config.js');
 
 // import { find, filter } from 'lodash';
 // import { makeExecutableSchema } from 'graphql-tools';
@@ -8,18 +9,66 @@ const { find, filter } = require("lodash"),
 // Go deeper with : http://dev.apollodata.com/tools/graphql-tools/generate-schema.html
 // import Schema from './schema.graphql'; // FOR ES6 compiled code, cf below for require methode
 
-// example data : TODO : connect to MongoDB with mongose
-const users = [
-    { _id: "UAX", firstname: 'Tom', lastname: 'Coleman', email: 'Tom@Coleman.com',
-    password: "not set", roles:['master']},
-];
+// es6 mongo connect :
+// import {MongoClient, ObjectId} from 'mongodb'
+// const MONGO_URL = 'mongodb://localhost:27017/blog'
+// const db = await MongoClient.connect(MONGO_URL)
+
+
+// example with mongoose
+var mongoose = require('mongoose');
+mongoose.connect(config.mongo_url, {
+    useMongoClient: true,
+});
+// Set Promise to avoid warning : (node:65561) DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
+mongoose.Promise = global.Promise;
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+});
+
+var userSchema = mongoose.Schema({
+    _id: String,
+    firstname: String,
+    lastname: String,
+    email: String,
+    password: String,
+    roles: [ String ],
+});
+
+// NOTE: methods must be added to the schema before compiling it with mongoose.model()
+userSchema.methods.speak = function () {
+  var greeting = this.name
+    ? "User name is " + this.firstname
+    : "I don't have a name";
+  console.log(greeting);
+}
+
+var userModel = mongoose.model('User', userSchema);
 
 const resolvers = {
   Query: {
-      userByEmail: (_, { email }) => find(users, { email: email }),
-      users: (_, { }) => users,
+      userByEmail: async (_, { email }) => await userModel.find({ email: email }),
+      users: async (_, { }) => await userModel.find(),
   },
 };
+
+
+// userModel.find({ name: /^fluff/ }, callback); // get all user starting with fluff
+
+// example with raw data :
+// const users = [
+//     { _id: "UAX", firstname: 'Tom', lastname: 'Coleman', email: 'Tom@Coleman.com',
+//     password: "not set", roles:['master']},
+// ];
+// const resolvers = {
+//   Query: {
+//       userByEmail: (_, { email }) => find(users, { email: email }),
+//       users: (_, { }) => users,
+//   },
+// };
 
 // ES6 way
 // const schema = ;

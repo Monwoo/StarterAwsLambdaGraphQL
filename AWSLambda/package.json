@@ -1,16 +1,18 @@
 {
-  "name": "AWSLambda",
-  "version": "1.0.0",
-  "description": "GraphQL server with AWS Lambda integration",
-  "main": "graphql.js",
-  "repository": "https://github.com/Monwoo/StarterAwsLambdaGraphQL/tree/master/AWSLambda",
-  "author": "Miguel Monwoo",
-  "license": "MIT",
-  "dependencies": {
-    "apollo-server-lambda": "*",
-    "graphql": "*",
-    "graphql-tools": "*",
-    "lambda-local": "^1.4.2",
-    "lodash": "^4.17.4"
-  }
+	"name": "AWSLambda",
+	"version": "1.0.0",
+	"description": "GraphQL server with AWS Lambda integration",
+	"main": "graphql.js",
+	"repository":
+		"https://github.com/Monwoo/StarterAwsLambdaGraphQL/tree/master/AWSLambda",
+	"author": "Miguel Monwoo",
+	"license": "MIT",
+	"dependencies": {
+		"apollo-server-lambda": "*",
+		"graphql": "*",
+		"graphql-tools": "*",
+		"lambda-local": "^1.4.2",
+		"lodash": "^4.17.4",
+		"mongoose": "^4.11.12"
+	}
 }

@@ -26,21 +26,21 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  // we're connected!
+	// we're connected!
 });
 
 var userSchema = mongoose.Schema({
-    _id: String,
-    firstname: String,
-    lastname: String,
-    email: String,
-    password: String,
+	_id: String,
+	firstname: String,
+	lastname: String,
+	email: String,
+	password: String,
     roles: [ String ],
 });
 
 // NOTE: methods must be added to the schema before compiling it with mongoose.model()
 userSchema.methods.speak = function () {
-  var greeting = this.name
+	var greeting = this.name
     ? "User name is " + this.firstname
     : "I don't have a name";
   console.log(greeting);
@@ -53,10 +53,10 @@ var userModel = mongoose.model('User', userSchema);
 //       userByEmail: async (_, { email }) => await userModel.find({ email: email }),
 
 const resolvers = {
-  Query: {
-      userByEmail: (_, { email }) => userModel.find({ email: email }),
+	Query: {
+		userByEmail: (_, { email }) => userModel.find({ email: email }),
       users: (_, { }) => userModel.find(),
-  },
+	},
 };
 
 
@@ -97,7 +97,7 @@ var typeDefs = require("./schema.graphql");
 const schema = makeExecutableSchema({
     typeDefs: [typeDefs, ],
     resolvers: resolvers,
-    // connectors: Connectors,
+	// connectors: Connectors,
 });
 
 

@@ -1,4 +1,4 @@
-<img src="http://monwoo.com/logoMonwoo-128.png" width="128" height="128" />
+<img src="http://monwoo.com/assets/medias/LogoMonwoo-128.png" width="128" height="128" />
 
 By Monwoo 2017.
 
